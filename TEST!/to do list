@@ -1,0 +1,109 @@
+'''
++ FOR CODE
+- Fix attendance issue (Login Page and Dashboard)77
+
+
++ FOR DASHBOARD
+use tableview for easy access
+
+Subject - subjects and time (more like schedule)
+Attendance - date and time(di ko pa alam if ganito na talaga baka ibahin ko ito)
+Inbox - history of scanned qr code and subjects
+Contacts - the qr code creator
+Support - kapag may bug si user na na encounter, pwede nya I report satin
+Setting - manage account, change color theme...(Ito Palang rin naiisip ko sa setting
+
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+'''#--- EXAMPLE
+import customtkinter as ctk
+from PIL import Image, ImageTk
+
+ctk.set_appearance_mode("dark")
+root = ctk.CTk()
+
+
+tabview = ctk.CTkTabview(root, border_width=0, anchor="w")
+tabview.pack(padx=10, pady=10)
+
+show_btn = ctk.CTkImage(light_image=Image.open("TEST!/show.png"),
+                                dark_image=Image.open("TEST!/show.png"), size=(40, 25))
+hide_btn = ctk.CTkImage(light_image=Image.open("TEST!/hide.png"),
+                                dark_image=Image.open("TEST!/hide.png"), size=(40, 25))
+
+tab1 = tabview.add("Home Page")
+tab2 = tabview.add("Schedule")
+
+
+tab_button = tabview._segmented_button._buttons_dict["Home Page"]
+tab_button.configure(image=show_btn, text="", compound="left")
+ 
+tab_button = tabview._segmented_button._buttons_dict["Schedule"]
+tab_button.configure(image=hide_btn, text="", compound="left")
+
+label1 = ctk.CTkLabel(tab1, text="First Page", font=("Arial", 20))
+label1.pack(pady=50)
+
+label2 = ctk.CTkLabel(tab2, text="Second Page", font=("Arial", 20))
+label2.pack(pady=50)
+root.mainloop()
+'''
+
+import customtkinter as ctk
+
+ctk.set_appearance_mode("dark")
+
+root = ctk.CTk()
+root.geometry("400x300")
+
+# Main container
+main_frame = ctk.CTkFrame(root)
+main_frame.pack(fill="both", expand=True)
+
+# Left vertical tab bar
+tab_bar = ctk.CTkFrame(main_frame, width=100)
+tab_bar.pack(side="left", fill="y")
+
+# Content frame
+content_frame = ctk.CTkFrame(main_frame)
+content_frame.pack(side="right", fill="both", expand=True)
+
+# Dictionary to store tab pages
+pages = {}
+
+def show_page(name):
+    # Hide all pages
+    for p in pages.values():
+        p.pack_forget()
+    # Show selected page
+    pages[name].pack(fill="both", expand=True)
+
+# Create vertical "tabs"
+for name in ["Home", "Settings", "Profile"]:
+    btn = ctk.CTkButton(tab_bar, text=name, width=100,
+                        corner_radius=0,
+                        command=lambda n=name: show_page(n))
+    btn.pack(fill="x")
+
+    # Create pages
+    page = ctk.CTkFrame(content_frame)
+    ctk.CTkLabel(page, text=f"{name} Page", font=("Arial", 20)).pack(pady=20)
+    pages[name] = page
+
+# Show first tab by default
+show_page("Home")
+
+root.mainloop()
+
